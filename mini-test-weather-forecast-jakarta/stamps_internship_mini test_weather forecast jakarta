@@ -1,0 +1,32 @@
+import os
+import requests
+from dotenv import load_dotenv
+from datetime import datetime
+# from pprint import pprint # Used to see the API responses nicely.
+
+# This function will look for the .env file and load it
+# so that we can see the OpenWeather API Key.
+load_dotenv()
+
+openWeatherAPIKey = os.getenv("OPEN_WEATHER_API_KEY")
+cityName = "Jakarta"
+limit = 1
+geocodingURL = f"http://api.openweathermap.org/geo/1.0/direct?q={cityName}&limit={limit}&appid={openWeatherAPIKey}"
+geocodingResponse = requests.get(geocodingURL)
+geocodingData = geocodingResponse.json()
+latJakarta = geocodingData[0]["lat"]
+lonJakarta = geocodingData[0]["lon"]
+units = "metric"
+weatherURL = f"https://api.openweathermap.org/data/2.5/forecast?lat={latJakarta}&lon={lonJakarta}&appid={openWeatherAPIKey}&units={units}"
+weatherResponse = requests.get(weatherURL)
+weatherData = weatherResponse.json()
+datesVisited = set()
+print("Weather Forecast:")
+for weatherReadings in weatherData["list"]:
+    date = weatherReadings["dt_txt"].split()[0]
+    temp = weatherReadings["main"]["temp"]
+    if (date not in datesVisited):
+        datesVisited.add(date)
+        dateObject = datetime.strptime(date, "%Y-%m-%d")
+        formattedDate = dateObject.strftime("%a, %d %b %Y")
+        print(f"{formattedDate}: {temp}\N{DEGREE SIGN}C")   
