@@ -28,3 +28,13 @@ Both programs are written in **Python**. To run the weather forecast script loca
 2. Install the required external libraries by running:
    ```bash
    pip install requests python-dotenv
+   
+### Running the Weather Forecast Script
+For security purposes, the actual API key is not included in this repository. To execute the weather script successfully:
+
+1. Navigate to the `mini-test-weather-forecast-jakarta` directory.
+2. Locate the `.env.example` file.
+3. Rename the file from `.env.example` to `.env`.
+4. Open the new `.env` file and insert a valid OpenWeatherMap API key:
+   ```text
+   OPEN_WEATHER_API_KEY=your_api_key_here
